@@ -58,6 +58,10 @@ new Riichi('1s+1s+123m55z666z7777z') //副露:123m順子 5z暗槓 6z明刻 7z明
 new Riichi('112233456789m1s1s+d12s') //Dora: 1s 2s
 ```
 
+```js
+new Riichi('112233456789m1s1s+n3') //Nukidora 3
+```
+
 **Extra Option:**
 
 ```js

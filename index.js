@@ -77,6 +77,7 @@ class Riichi {
         this.furo = [] //副露 例:[['1m', '1m', '1m'], ['2m', '2m'], ['3m', '4m', '5m'], ['6m', '6m', '6m', '6m']]
         this.agari = '' //和了牌 例:'2m'
         this.dora = [] //dora 例:['6z', '7z']
+        this.nukidora = 0
         this.extra = '' //付属役 例:'riho22' ※付属役一覧参照
         this.isTsumo = true //true:自摸 false:栄和
         this.isOya = false //true:親家 false:子家
@@ -113,9 +114,12 @@ class Riichi {
             return
         data = data.toLowerCase()
         let arr = data.split('+')
+        console.log(arr)
         let hai = arr.shift()
         for (let v of arr) {
-            if (!v.includes('m') && !v.includes('p') && !v.includes('s') && !v.includes('z'))
+            if (v[0] === 'n')
+                this.nukidora = Number(v.substr(1))
+            else if (!v.includes('m') && !v.includes('p') && !v.includes('s') && !v.includes('z'))
                 this.extra = v
             else if (v[0] === 'd')
                 this.dora = parse(v.substr(1)).res
@@ -214,6 +218,10 @@ class Riichi {
         if (this.allowAka && this.aka) {
             this.tmpResult.han += this.aka
             this.tmpResult.yaku['赤ドラ'] = this.aka + '飜'
+        }
+        if (this.nukidora) {
+            this.tmpResult.han += this.nukidora
+            this.tmpResult.yaku['抜きドラ'] = this.nukidora + '飜'
         }
     }
 
