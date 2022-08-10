@@ -77,6 +77,7 @@ class Riichi {
         this.furo = [] //副露 例:[['1m', '1m', '1m'], ['2m', '2m'], ['3m', '4m', '5m'], ['6m', '6m', '6m', '6m']]
         this.agari = '' //和了牌 例:'2m'
         this.dora = [] //dora 例:['6z', '7z']
+        this.uradora = []
         this.nukidora = 0
         this.extra = '' //付属役 例:'riho22' ※付属役一覧参照
         this.isTsumo = true //true:自摸 false:栄和
@@ -122,6 +123,8 @@ class Riichi {
                 this.extra = v
             else if (v[0] === 'd')
                 this.dora = parse(v.substr(1)).res
+            else if (v[0] === 'u')
+                this.uradora = parse(v.substr(1)).res
             else if (isHai(v)) {
                 hai += v
                 this.isTsumo = false
@@ -193,26 +196,15 @@ class Riichi {
     calcDora() {
         if (!this.tmpResult.han)
             return
-        let dora = 0
-        for (let v of this.hai) {
-            for (let vv of this.dora) {
-                if (v === vv)
-                    dora++
-            }
-        }
-        for (let v of this.furo) {
-            if (v.length === 2)
-                v = v.concat(v)
-            for (let vv of v) {
-                for (let vvv of this.dora) {
-                    if (vvv === vv)
-                        dora++
-                }
-            }
-        }
+        let dora = this.calcDoraSet(false)
+        let uradora = '立直' in this.tmpResult.yaku || 'ダブル立直' in this.tmpResult.yaku ? this.calcDoraSet(true) : 0
         if (dora) {
             this.tmpResult.han += dora
             this.tmpResult.yaku['ドラ'] = dora + '飜'
+        }
+        if (uradora) {
+            this.tmpResult.han += uradora
+            this.tmpResult.yaku['裏ドラ'] = uradora + '飜'
         }
         if (this.allowAka && this.aka) {
             this.tmpResult.han += this.aka
@@ -222,6 +214,28 @@ class Riichi {
             this.tmpResult.han += this.nukidora
             this.tmpResult.yaku['抜きドラ'] = this.nukidora + '飜'
         }
+    }
+
+    calcDoraSet(isUra) {
+        let set = isUra ? this.uradora : this.dora
+        let dora = 0
+        for (let v of this.hai) {
+            for (let vv of set) {
+                if (v === vv)
+                    dora++
+            }
+        }
+        for (let v of this.furo) {
+            if (v.length === 2)
+                v = v.concat(v)
+            for (let vv of v) {
+                for (let vvv of set) {
+                    if (vvv === vv)
+                        dora++
+                }
+            }
+        }
+        return dora
     }
 
     /**

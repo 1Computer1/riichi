@@ -59,6 +59,10 @@ new Riichi('112233456789m1s1s+d12s') //Dora: 1s 2s
 ```
 
 ```js
+new Riichi('112233456789m1s1s+u12s') //Uradora: 1s 2s
+```
+
+```js
 new Riichi('112233456789m1s1s+n3') //Nukidora 3
 ```
 
