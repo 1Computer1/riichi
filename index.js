@@ -322,7 +322,7 @@ class Riichi {
             this.tmpResult.oya = [ceil100(base*6)]
             this.tmpResult.ko = [ceil100(base*4)]
         }
-        this.tmpResult.ten = this.isOya ? eval(this.tmpResult.oya.join('+')) : eval(this.tmpResult.ko.join('+'))
+        this.tmpResult.ten = this.isOya ? this.tmpResult.oya.reduce((a, b) => a + b, 0) : this.tmpResult.ko.reduce((a, b) => a + b, 0)
         this.tmpResult.text += ' ' + this.tmpResult.ten + '点'
         if (this.isTsumo) {
             this.tmpResult.text += '('
