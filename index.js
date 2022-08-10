@@ -114,7 +114,6 @@ class Riichi {
             return
         data = data.toLowerCase()
         let arr = data.split('+')
-        console.log(arr)
         let hai = arr.shift()
         for (let v of arr) {
             if (v[0] === 'n')
