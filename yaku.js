@@ -2,7 +2,6 @@
  * Copyright (C) https://github.com/takayama-lily/riichi
  */
 'use strict'
-const assert = require('assert')
 const agari = require('agari')
 const MPSZ = ['m', 'p', 's', 'z']
 const checkAllowed = (o, allowed)=>{
@@ -304,10 +303,9 @@ const YAKU =
             if (v.length === 3 && v[0] != v[1]) {
                 while (i < 4) {
                     i++
-                    try {
-                        assert.deepStrictEqual(v, o.currentPattern[i])
-                        return true
-                    } catch(e) {}
+                    if (v.toString() == o.currentPattern[i]) {
+                      return true
+                    }
                 }
             }
         }
