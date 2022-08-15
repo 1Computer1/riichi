@@ -109,6 +109,7 @@ new Riichi('112233456789m1s1s+24') //場風南自風北
   - [riichi.disableAka()](#use-before-calc)
   - [riichi.enableLocalYaku(name)](#use-before-calc)
   - [riichi.disableYaku(name)](#use-before-calc)
+  - [riichi.enableSanma()](#use-before-calc)
 
 ### use-before-calc()
 
@@ -121,6 +122,8 @@ riichi.disableKuitan() //喰断禁止
 riichi.disableAka() //赤dora禁止
 riichi.enableLocalYaku('人和') //人和有効
 riichi.disableYaku('大七星') //大七星禁止
+riichi.enableSanma(false) // Loss from North
+riichi.enableSanma(true) // Bisection from North
 
 let result = riichi.calc()
 ```

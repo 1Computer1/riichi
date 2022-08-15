@@ -16,6 +16,8 @@ declare class Riichi {
     enableLocalYaku(name: "大七星" | "人和"): void;
     disableYaku(name: string): void;
 
+    enableSanma(bisection?: boolean): void;
+
     calc(): Riichi.Result;
 }
 
@@ -29,8 +31,8 @@ declare namespace Riichi {
         ten: number,
         name: string,
         text: string,
-        oya: [number, number, number],
-        ko: [number, number, number],
+        oya: number[],
+        ko: number[],
         error: boolean,
         hairi?: any,
         hairi7and13?: any,

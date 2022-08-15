@@ -109,6 +109,8 @@ class Riichi {
         this.allowKuitan = true //false:喰断禁止
         this.allowAka = true //false:赤dora禁止
         this.hairi = true //未和了の場合、牌理を計算
+        this.sanma = false
+        this.sanmaBisection = false
 
         // 初期設定
         if (typeof data !== 'string')
@@ -332,6 +334,20 @@ class Riichi {
         if (this.isTsumo) {
             this.tmpResult.oya = [ceil100(base*2),ceil100(base*2),ceil100(base*2)]
             this.tmpResult.ko = [ceil100(base*2),ceil100(base),ceil100(base)]
+            if (this.sanma) {
+                this.tmpResult.oya.pop()
+                this.tmpResult.ko.pop()
+                if (this.sanmaBisection) {
+                    let halfNorthOya = ceil100(ceil100(base*2) / 2)
+                    for (let i = 0; i < this.tmpResult.oya.length; i++) {
+                        this.tmpResult.oya[i] += halfNorthOya
+                    }
+                    let halfNorthKo = ceil100(ceil100(base) / 2)
+                    for (let i = 0; i < this.tmpResult.ko.length; i++) {
+                        this.tmpResult.ko[i] += halfNorthKo
+                    }
+                }
+            }
         } else {
             this.tmpResult.oya = [ceil100(base*6)]
             this.tmpResult.ko = [ceil100(base*4)]
@@ -398,6 +414,10 @@ class Riichi {
     }
     disableYaku(name) { //指定役禁止
         this.disabled.push(name)
+    }
+    enableSanma(bisection = false) {
+        this.sanma = true
+        this.sanmaBisection = bisection
     }
 
     // supported local yaku list
