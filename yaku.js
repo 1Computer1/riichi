@@ -248,7 +248,7 @@ const YAKU =
         return agari.check7(o.haiArray) && !YAKU['二盃口'].check(o)
     }},
     "ダブル立直":{"han":2, "isMenzenOnly":true, "check":(o)=>{
-        return o.extra.includes('w') && !o.furo.length
+        return o.extra.includes('w')
     }},
     "一気通貫":{"han":2, "isFuroMinus":true, "check":(o)=>{
         let res = [0,0,0,0,0,0,0,0,0]
