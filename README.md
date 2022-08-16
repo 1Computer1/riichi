@@ -24,6 +24,7 @@ Output:
   isAgari: true,
   yakuman: 0,
   yaku: { '一気通貫': '2飜', '一盃口': '1飜', '門前清自摸和': '1飜' },
+  noYaku: false,
   han: 4,
   fu: 30,
   ten: 7900,
@@ -110,6 +111,8 @@ new Riichi('112233456789m1s1s+24') //場風南自風北
   - [riichi.enableLocalYaku(name)](#use-before-calc)
   - [riichi.disableYaku(name)](#use-before-calc)
   - [riichi.enableSanma()](#use-before-calc)
+  - [riichi.enableNoYakuFu()](#use-before-calc)
+  - [riichi.enableNoYakuDora()](#use-before-calc)
 
 ### use-before-calc()
 
@@ -122,8 +125,12 @@ riichi.disableKuitan() //喰断禁止
 riichi.disableAka() //赤dora禁止
 riichi.enableLocalYaku('人和') //人和有効
 riichi.disableYaku('大七星') //大七星禁止
+
 riichi.enableSanma(false) // Loss from North
 riichi.enableSanma(true) // Bisection from North
+
+riichi.enableNoYakuFu() // Calculate fu with no yaku
+riichi.enableNoYakuDora() // Calculate dora with no yaku
 
 let result = riichi.calc()
 ```

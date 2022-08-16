@@ -91,6 +91,7 @@ class Riichi {
             'isAgari': false, //和了?
             'yakuman': 0, //役満倍数
             'yaku': {}, //手役 例:{'天和':'役満','大四喜':'ダブル役満'} 例:{'立直':'1飜','清一色':'6飜'}
+            'noYaku': true,
             'han': 0, //飜数
             'fu': 0, //符数
             'ten': 0, //点数(this.isOya=undefined場合，計算不能)
@@ -111,6 +112,8 @@ class Riichi {
         this.hairi = true //未和了の場合、牌理を計算
         this.sanma = false
         this.sanmaBisection = false
+        this.noYakuFu = false
+        this.noYakuDora = false
 
         // 初期設定
         if (typeof data !== 'string')
@@ -196,8 +199,6 @@ class Riichi {
      * dora枚数計算
      */
     calcDora() {
-        if (!this.tmpResult.han)
-            return
         let dora = this.calcDoraSet(false)
         let uradora = '立直' in this.tmpResult.yaku || 'ダブル立直' in this.tmpResult.yaku ? this.calcDoraSet(true) : 0
         if (dora) {
@@ -307,8 +308,6 @@ class Riichi {
             base = 8000 * this.tmpResult.yakuman
             this.tmpResult.name = this.tmpResult.yakuman > 1 ? (this.tmpResult.yakuman + '倍役満') : '役満'
         } else {
-            if (!this.tmpResult.han)
-                return
             base = this.tmpResult.fu * Math.pow(2, this.tmpResult.han + 2)
             this.tmpResult.text += ' ' + this.tmpResult.fu + '符' + this.tmpResult.han + '飜'
             if (base > 2000) {
@@ -419,6 +418,12 @@ class Riichi {
         this.sanma = true
         this.sanmaBisection = bisection
     }
+    enableNoYakuFu() {
+        this.noYakuFu = true
+    }
+    enableNoYakuDora() {
+        this.noYakuDora = true
+    }
 
     // supported local yaku list
     // 大七星 役満(字一色別)
@@ -465,11 +470,19 @@ class Riichi {
             }
             this.currentPattern = v.concat(this.furo)
             this.calcYaku()
-            if (!this.tmpResult.yakuman && !this.tmpResult.han)
+            if (!this.tmpResult.yakuman && !this.tmpResult.han && !this.noYakuDora && !this.noYakuFu)
                 continue
             if (this.tmpResult.han) {
+                this.tmpResult.noYaku = false
                 this.calcDora()
                 this.calcFu()
+            } else {
+                if (this.noYakuDora) {
+                    this.calcDora()
+                }
+                if (this.noYakuFu) {
+                    this.calcFu()
+                }
             }
             this.calcTen()
             if (this.tmpResult.ten > this.finalResult.ten)
@@ -478,8 +491,6 @@ class Riichi {
                 this.finalResult = JSON.parse(JSON.stringify(this.tmpResult))
         }
 
-        if (!this.finalResult.ten)
-            this.finalResult.text = '無役'
         return this.finalResult
     }
 }

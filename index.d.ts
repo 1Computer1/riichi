@@ -17,6 +17,8 @@ declare class Riichi {
     disableYaku(name: string): void;
 
     enableSanma(bisection?: boolean): void;
+    enableNoYakuFu(): void;
+    enableNoYakuDora(): void;
 
     calc(): Riichi.Result;
 }
@@ -26,6 +28,7 @@ declare namespace Riichi {
         isAgari: boolean,
         yakuman: number,
         yaku: { [k: string]: string },
+        noYaku: boolean,
         han: number,
         fu: number,
         ten: number,
