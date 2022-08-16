@@ -79,6 +79,9 @@ class Riichi {
         this.dora = [] //dora 例:['6z', '7z']
         this.uradora = []
         this.nukidora = 0
+        this.extraYaku = 0
+        this.extraYakuman = 0
+        this.extraDora = 0
         this.extra = '' //付属役 例:'riho22' ※付属役一覧参照
         this.isTsumo = true //true:自摸 false:栄和
         this.isOya = false //true:親家 false:子家
@@ -90,7 +93,7 @@ class Riichi {
         this.tmpResult = { //臨時計算結果
             'isAgari': false, //和了?
             'yakuman': 0, //役満倍数
-            'yaku': {}, //手役 例:{'天和':'役満','大四喜':'ダブル役満'} 例:{'立直':'1飜','清一色':'6飜'}
+            'yaku': {}, //手役 例:{'天和':'役満','大四喜':'2役満'} 例:{'立直':'1飜','清一色':'6飜'}
             'noYaku': true,
             'han': 0, //飜数
             'fu': 0, //符数
@@ -124,6 +127,12 @@ class Riichi {
         for (let v of arr) {
             if (v[0] === 'n')
                 this.nukidora = Number(v.substr(1))
+            else if (v.startsWith('xy'))
+                this.extraYaku = Number(v.substr(2))
+            else if (v.startsWith('xm'))
+                this.extraYakuman = Number(v.substr(2))
+            else if (v.startsWith('xd'))
+                this.extraDora = Number(v.substr(2))
             else if (!v.includes('m') && !v.includes('p') && !v.includes('s') && !v.includes('z'))
                 this.extra = v
             else if (v[0] === 'd')
@@ -216,6 +225,10 @@ class Riichi {
         if (this.nukidora) {
             this.tmpResult.han += this.nukidora
             this.tmpResult.yaku['抜きドラ'] = this.nukidora + '飜'
+        }
+        if (this.extraDora) {
+            this.tmpResult.han += this.extraDora
+            this.tmpResult.yaku['他のドラ'] = this.extraDora + '飜'
         }
     }
 
@@ -371,6 +384,13 @@ class Riichi {
         this.tmpResult.yaku = {}
         this.tmpResult.yakuman = 0
         this.tmpResult.han = 0
+        if (this.extraYakuman) {
+            this.tmpResult.yaku['他の役満'] = this.extraYakuman > 1 ? this.extraYakuman + '倍役満' : '役満'
+            this.tmpResult.yakuman += this.extraYakuman
+        } else if (this.extraYaku) {
+            this.tmpResult.yaku['他の役'] = this.extraYaku + '飜'
+            this.tmpResult.han += this.extraYaku
+        }
         for (let k in YAKU) {
             let v = YAKU[k]
             if (this.disabled.includes(k))
@@ -385,7 +405,7 @@ class Riichi {
                 if (v.yakuman) {
                     let n = this.allowWyakuman ? v.yakuman : 1
                     this.tmpResult.yakuman += n
-                    this.tmpResult.yaku[k] = n > 1 ? 'ダブル役満' : '役満'
+                    this.tmpResult.yaku[k] = n > 1 ? '2倍役満' : '役満'
                 } else {
                     let n = v.han
                     if (v.isFuroMinus && !this.isMenzen())

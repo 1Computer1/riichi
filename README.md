@@ -64,7 +64,19 @@ new Riichi('112233456789m1s1s+u12s') //Uradora: 1s 2s
 ```
 
 ```js
-new Riichi('112233456789m1s1s+n3') //Nukidora 3
+new Riichi('112233456789m1s1s+n3') //Nukidora 3 (interrupts)
+```
+
+```js
+new Riichi('112233456789m1s1s+xm1') //Extra Yakuman 1
+```
+
+```js
+new Riichi('112233456789m1s1s+xy3') //Extra Yaku 3 Han
+```
+
+```js
+new Riichi('112233456789m1s1s+xd3') //Extra Dora 3 Han
 ```
 
 **Extra Option:**
