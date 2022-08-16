@@ -117,6 +117,10 @@ class Riichi {
         this.sanmaBisection = false
         this.noYakuFu = false
         this.noYakuDora = false
+        this.doubleWindFu = false
+        this.rinshanFu = true
+        this.kiriageMangan = false
+        this.kazoeYakuman = true
 
         // 初期設定
         if (typeof data !== 'string')
@@ -270,10 +274,17 @@ class Riichi {
                 fu += 10
             for (let v of this.currentPattern) {
                 if (typeof v === 'string') {
-                    if (v.includes('z')) 
-                        for (let vv of [this.bakaze, this.jikaze, 5, 6, 7])
-                            if (parseInt(v) === vv)
+                    if (v.includes('z')) {
+                        let n = parseInt(v)
+                        if ([5, 6, 7].includes(n)) {
+                            fu += 2
+                        } else if ([this.bakaze, this.jikaze].includes(n)) {
+                            fu += 2
+                            if (this.doubleWindFu && this.bakaze === this.jikaze) {
                                 fu += 2
+                            }
+                        }
+                    }
                     if (this.agari === v)
                         hasAgariFu = true
                 } else {
@@ -298,8 +309,15 @@ class Riichi {
 
             if (hasAgariFu)
                 fu += 2
-            if (this.isTsumo)
-                fu += 2
+            if (this.isTsumo) {
+                if (this.tmpResult.yaku['嶺上開花']) {
+                    if (this.rinshanFu) {
+                        fu += 2
+                    }
+                } else {
+                    fu += 2
+                }
+            }
 
             fu = ceil10(fu)
             if (fu < 30)
@@ -323,8 +341,8 @@ class Riichi {
         } else {
             base = this.tmpResult.fu * Math.pow(2, this.tmpResult.han + 2)
             this.tmpResult.text += ' ' + this.tmpResult.fu + '符' + this.tmpResult.han + '飜'
-            if (base > 2000) {
-                if (this.tmpResult.han >= 13) {
+            if (this.kiriageMangan ? base > 1900 : base > 2000) {
+                if (this.kazoeYakuman && this.tmpResult.han >= 13) {
                     base = 8000
                     this.tmpResult.name = '数え役満'
                 } else if (this.tmpResult.han >= 11) {
@@ -444,6 +462,19 @@ class Riichi {
     enableNoYakuDora() {
         this.noYakuDora = true
     }
+    enableDoubleWindFu() {
+        this.doubleWindFu = true
+    }
+    disableRinshanFu() {
+        this.rinshanFu = false
+    }
+    enableKiriageMangan() {
+        this.kiriageMangan = true
+    }
+    disableKazoeYakuman() {
+        this.kazoeYakuman = false
+    }
+
 
     // supported local yaku list
     // 大七星 役満(字一色別)

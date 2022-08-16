@@ -125,6 +125,10 @@ new Riichi('112233456789m1s1s+24') //場風南自風北
   - [riichi.enableSanma()](#use-before-calc)
   - [riichi.enableNoYakuFu()](#use-before-calc)
   - [riichi.enableNoYakuDora()](#use-before-calc)
+  - [riichi.enableDoubleWindFu()](#use-before-calc)
+  - [riichi.disableRinshanFu()](#use-before-calc)
+  - [riichi.enableKiriageMangan()](#use-before-calc)
+  - [riichi.disableKazoeYakuman()](#use-before-calc)
 
 ### use-before-calc()
 

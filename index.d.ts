@@ -20,6 +20,11 @@ declare class Riichi {
     enableNoYakuFu(): void;
     enableNoYakuDora(): void;
 
+    enableDoubleWindFu(): void;
+    disableRinshanFu(): void;
+    enableKiriageMangan(): void;
+    disableKazoeYakuman(): void;
+
     calc(): Riichi.Result;
 }
 
