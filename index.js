@@ -347,7 +347,7 @@ class Riichi {
         } else {
             base = this.tmpResult.fu * Math.pow(2, this.tmpResult.han + 2)
             this.tmpResult.text += ' ' + this.tmpResult.fu + '符' + this.tmpResult.han + '飜'
-            if (this.settings.kiriageMangan ? base > 1900 : base > 2000) {
+            if (this.settings.kiriageMangan ? base >= 1920 : base > 2000) {
                 if (this.settings.kazoeYakuman && this.tmpResult.han >= 13) {
                     base = 8000
                     this.tmpResult.name = '数え役満'
