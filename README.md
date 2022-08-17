@@ -118,21 +118,22 @@ new Riichi('112233456789m1s1s+24') //場風南自風北
 const Riichi = require('riichi')
 
 const defaultSettings = {
-  allLocalYaku   : false,
-  localYaku      : [],
-  disabledYaku   : [],
-  wyakuman       : true,  // double yakuman (suuankou tanki etc.)
-  kuitan         : true,  // open tanyao
-  aka            : true,  // akadora
-  sanma          : false, // 3 players
-  sanmaBisection : false, // on tsumo, lose points (false) or bisect North points (true)
-  noYakuFu       : false, // calculate fu with no yaku
-  noYakuDora     : false, // add dora with no yaku
-  doubleWindFu   : false, // +2 fu if double wind
-  rinshanFu      : true,  // +2 fu on rinshan tsumo
-  kiriageMangan  : false, // round up to mangan
-  kazoeYakuman   : true,  // >13 han is yakuman else sanbaiman
-  ryuuiisouHatsu : false, // require hatsu for ryuuiisou
+  allLocalYaku    : false,
+  localYaku       : [],
+  disabledYaku    : [],
+  multiYakuman    : true,  // cap at 1 yakuman total score
+  wyakuman        : true,  // double yakuman (suuankou tanki etc.)
+  kuitan          : true,  // open tanyao
+  aka             : true,  // akadora
+  sanma           : false, // 3 players
+  sanmaBisection  : false, // on tsumo, lose points (false) or bisect North points (true)
+  noYakuFu        : false, // calculate fu with no yaku
+  noYakuDora      : false, // add dora with no yaku
+  doubleWindFu    : false, // +2 fu if double wind
+  rinshanFu       : true,  // +2 fu on rinshan tsumo
+  kiriageMangan   : false, // round up to mangan
+  kazoeYakuman    : true,  // >13 han is yakuman else sanbaiman
+  ryuuiisouHatsu  : false, // require hatsu for ryuuiisou
 }
 
 const riichi = new Riichi('112233456789m11s+o', defaultSettings)

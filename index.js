@@ -112,6 +112,7 @@ class Riichi {
             allLocalYaku: false,
             localYaku: [],
             disabledYaku: [],
+            multiYakuman: true,
             wyakuman: true,
             kuitan: true,
             aka: true,
@@ -341,7 +342,7 @@ class Riichi {
         this.tmpResult.text += KAZE[this.jikaze] + '家)'
         this.tmpResult.text += this.isTsumo ? '自摸' : '栄和'
         if (this.tmpResult.yakuman) {
-            base = 8000 * this.tmpResult.yakuman
+            base = 8000 * (this.settings.multiYakuman ? this.tmpResult.yakuman : 1)
             this.tmpResult.name = this.tmpResult.yakuman > 1 ? (this.tmpResult.yakuman + '倍役満') : '役満'
         } else {
             base = this.tmpResult.fu * Math.pow(2, this.tmpResult.han + 2)
@@ -494,6 +495,8 @@ class Riichi {
             }
             this.calcTen()
             if (this.tmpResult.ten > this.finalResult.ten)
+                this.finalResult = JSON.parse(JSON.stringify(this.tmpResult))
+            else if (this.tmpResult.ten === this.finalResult.ten && this.tmpResult.yakuman > this.finalResult.yakuman)
                 this.finalResult = JSON.parse(JSON.stringify(this.tmpResult))
             else if (this.tmpResult.ten === this.finalResult.ten && this.tmpResult.han > this.finalResult.han)
                 this.finalResult = JSON.parse(JSON.stringify(this.tmpResult))

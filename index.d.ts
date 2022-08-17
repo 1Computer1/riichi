@@ -29,6 +29,7 @@ declare namespace Riichi {
         allLocalYaku: boolean;
         localYaku: string[];
         disabledYaku: string[];
+        multiYakuman: boolean;
         wyakuman: boolean;
         kuitan: boolean;
         sanma: boolean;
