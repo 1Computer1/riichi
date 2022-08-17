@@ -143,7 +143,7 @@ const defaultSettings = {
   ryuuiisouHatsu  : false, // require hatsu for ryuuiisou
 }
 
-const riichi = new Riichi('112233456789m11s+o', defaultSettings)
+const riichi = new Riichi('112233456789m11s', defaultSettings)
 ```
 
 # 向聴数牌理計算 [lib](https://github.com/takayama-lily/syanten)
