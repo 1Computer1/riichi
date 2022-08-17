@@ -217,6 +217,17 @@ const YAKU =
         let allow = ['1m', '9m', '1p', '9p', '1s', '9s']
         return checkChanta(o, allow)
     }},
+    "一色三順":{"han":3, "isLocal":true, "isFuroMinus":true, "check":(o)=>{
+        let arr = []
+        for (let v of o.currentPattern) {
+            if (typeof v === 'string')
+                continue
+            if (v.length !== 3 || v[0] === v[1])
+                return false
+            arr.push(v[0])
+        }
+        return arr.some(x => arr.filter(y => x === y).length === 3)
+    }},
     "混全帯么九":{"han":2, "isFuroMinus":true, "check":(o)=>{
         let allow = ['1m', '9m', '1p', '9p', '1s', '9s', '1z', '2z', '3z', '4z', '5z', '6z', '7z']
         return checkChanta(o, allow) && !YAKU['純全帯么九'].check(o)
@@ -273,6 +284,44 @@ const YAKU =
     "ダブル立直":{"han":2, "isMenzenOnly":true, "check":(o)=>{
         return o.extra.includes('w')
     }},
+    "三連刻":{"han":2, "isLocal":true, "check":(o)=>{
+        let res = {
+            m:[0,0,0,0,0,0,0,0,0],
+            p:[0,0,0,0,0,0,0,0,0],
+            s:[0,0,0,0,0,0,0,0,0],
+        }
+        for (let v of o.currentPattern) {
+            if ((v.length === 1 || v[0] === v[1]) && !v[0].includes('z'))
+                res[v[0][1]][parseInt(v[0])-1]++
+            else
+                continue
+        }
+        for (let suit of ['m', 'p', 's']) {
+            for (let i = 0; i < 7; i++) {
+                if (res[suit][i] && res[suit][i+1] && res[suit][i+2]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }},
+    "五門斉":{"han":2, "isLocal":true, "check":(o)=>{
+        let suits = new Set()
+        for (let v of o.currentPattern) {
+            let suit
+            if (typeof v === 'string') {
+                suit = v[1];
+            } else if (typeof v === 'object') {
+                suit = v[0][1]
+            }
+            if (suit === 'z' && parseInt(v) > 4) {
+                suits.add('d')
+            } else {
+                suits.add(suit)
+            }
+        }
+        return suits.size === 5
+    }},
     "一気通貫":{"han":2, "isFuroMinus":true, "check":(o)=>{
         let res = [0,0,0,0,0,0,0,0,0]
         for (let v of o.currentPattern) {
@@ -320,6 +369,8 @@ const YAKU =
     "一盃口":{"han":1, "isMenzenOnly":true, "check":(o)=>{
         if (YAKU['二盃口'].check(o))
             return false
+        if ((o.settings.allLocalYaku || o.settings.localYaku.includes('一色三順')) && YAKU['一色三順'].check(o))
+            return false
         for (let i in o.currentPattern) {
             i = parseInt(i)
             let v = o.currentPattern[i]
@@ -352,6 +403,15 @@ const YAKU =
             }
         }
         return hasKantsu && o.extra.includes('k') && !o.extra.includes('h') && o.isTsumo && !YAKU['一発'].check(o)
+    }},
+    "十二落抬":{"han": 1, "isLocal":true, check:(o) => {
+        let opens = 0
+        for (let v of o.furo) {
+            if (v.length !== 2) {
+                opens++
+            }
+        }
+        return opens === 4
     }},
     "搶槓":{"han":1, "check":(o)=>{
         return o.extra.includes('k') && !o.extra.includes('h') && !o.isTsumo
