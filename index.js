@@ -440,46 +440,6 @@ class Riichi {
         }
     }
 
-    // api exports ↓ ----------------------------------------------------------------------------------------------------
-
-    disableWyakuman() { //二倍役満禁止
-        this.allowWyakuman = false
-    }
-    disableKuitan() { //喰断禁止
-        this.allowKuitan = false
-    }
-    disableAka() { //赤dora禁止
-        this.allowAka = false
-    }
-    enableLocalYaku(name) { //指定local役有効
-        this.localEnabled.push(name)
-    }
-    disableYaku(name) { //指定役禁止
-        this.disabled.push(name)
-    }
-    enableSanma(bisection = false) {
-        this.sanma = true
-        this.sanmaBisection = bisection
-    }
-    enableNoYakuFu() {
-        this.noYakuFu = true
-    }
-    enableNoYakuDora() {
-        this.noYakuDora = true
-    }
-    enableDoubleWindFu() {
-        this.doubleWindFu = true
-    }
-    disableRinshanFu() {
-        this.rinshanFu = false
-    }
-    enableKiriageMangan() {
-        this.kiriageMangan = true
-    }
-    disableKazoeYakuman() {
-        this.kazoeYakuman = false
-    }
-
     setHairi(hairi) {
         this.hairi = hairi
     }
