@@ -275,7 +275,7 @@ const YAKU =
     }},
     "断么九":{"han":1, "check":(o)=>{
         for (let v of o.furo)
-            if (!o.allowKuitan && v.length !== 2)
+            if (!o.settings.kuitan && v.length !== 2)
                 return false
         let allow = ['2m', '3m', '4m', '5m', '6m', '7m', '8m', '2p', '3p', '4p', '5p', '6p', '7p', '8p', '2s', '3s', '4s', '5s', '6s', '7s', '8s']
         return checkAllowed(o, allow)

@@ -93,7 +93,6 @@ new Riichi('1s+1s+123m55z666z7777z+d12s+trihk22') //Extra:trihk22
 | w | w立直 |
 | h | 海底摸月/河底撈魚 |
 | k | 槍槓/嶺上開花 |
-| o | 全local役有効 |
 | 22 | 場風南自風南 |
 
 **場風自風:**
@@ -107,48 +106,33 @@ new Riichi('112233456789m1s1s+21') //場風南自風東
 new Riichi('112233456789m1s1s+24') //場風南自風北
 ```
 
+## Settings
+
 **local yaku list:**
 | Name | 飜数 |
 | --- | --- |
 | 人和 | 役満x1 |
 | 大七星 | 役満x1 |
 
-## Api
-
-- [Class: Riichi](#Usage)
-  - [riichi.calc()](#Usage)
-  - [riichi.disableWyakuman()](#use-before-calc)
-  - [riichi.disableKuitan()](#use-before-calc)
-  - [riichi.disableAka()](#use-before-calc)
-  - [riichi.enableLocalYaku(name)](#use-before-calc)
-  - [riichi.disableYaku(name)](#use-before-calc)
-  - [riichi.enableSanma()](#use-before-calc)
-  - [riichi.enableNoYakuFu()](#use-before-calc)
-  - [riichi.enableNoYakuDora()](#use-before-calc)
-  - [riichi.enableDoubleWindFu()](#use-before-calc)
-  - [riichi.disableRinshanFu()](#use-before-calc)
-  - [riichi.enableKiriageMangan()](#use-before-calc)
-  - [riichi.disableKazoeYakuman()](#use-before-calc)
-
-### use-before-calc()
-
 ```js
 const Riichi = require('riichi')
-const riichi = new Riichi('112233456789m11s+o')
+const riichi = new Riichi('112233456789m11s+o', settings)
 
-riichi.disableWyakuman() //2倍役満禁止
-riichi.disableKuitan() //喰断禁止
-riichi.disableAka() //赤dora禁止
-riichi.enableLocalYaku('人和') //人和有効
-riichi.disableYaku('大七星') //大七星禁止
-
-riichi.enableSanma(false) // Loss from North
-riichi.enableSanma(true) // Bisection from North
-
-riichi.enableNoYakuFu() // Calculate fu with no yaku
-riichi.enableNoYakuDora() // Calculate dora with no yaku
-
-let result = riichi.calc()
+interface Settings {
+  allLocalYaku: boolean;
+  localYaku: string[];
+  disabledYaku: string[];
+  wyakuman: boolean;
+  kuitan: boolean; // open tanyao
+  sanma: boolean; // 3 players
+  sanmaBisection: boolean; // on tsumo, lose points (false) or bisect North points (true)
+  noYakuFu: boolean; // calculate fu with no yaku
+  noYakuDora: boolean; // add dora with no yaku
+  doubleWindFu: boolean; // +2 fu if double wind
+  rinshanFu: boolean; // +2 fu on rinshan tsumo
+  kiriageMangan: boolean; // round up to mangan
+  kazoeYakuman: boolean; // >13 han is yakuman else sanbaiman
+}
 ```
 
 # 向聴数牌理計算 [lib](https://github.com/takayama-lily/syanten)

@@ -66,7 +66,7 @@ class Riichi {
     /**
      * @param string data
      */
-    constructor(data) {
+    constructor(data, settings) {
         this.hai = [] //array型手牌(和了牌含) 例:['1m', '1m', '1m', '2m', '2m']
         this.haiArray = [ // 複合array型手牌(和了牌含)
             [0,0,0,0,0,0,0,0,0],
@@ -106,21 +106,25 @@ class Riichi {
         }
         this.finalResult //最終計算結果
 
-        this.allLocalEnabled = false //全部local役許可
-        this.localEnabled = [] //local役許可list
-        this.disabled = [] //禁止役 例:['renho', 'wriichi']
-        this.allowWyakuman = true //false:二倍役満禁止
-        this.allowKuitan = true //false:喰断禁止
-        this.allowAka = true //false:赤dora禁止
         this.hairi = true //未和了の場合、牌理を計算
-        this.sanma = false
-        this.sanmaBisection = false
-        this.noYakuFu = false
-        this.noYakuDora = false
-        this.doubleWindFu = false
-        this.rinshanFu = true
-        this.kiriageMangan = false
-        this.kazoeYakuman = true
+
+        this.settings = {
+            allLocalYaku: false, //全部local役許可
+            localYaku: [], //local役許可list
+            disabledYaku: [], //禁止役 例:['renho', 'wriichi']
+            wyakuman: true, //false:二倍役満禁止
+            kuitan: true, //false:喰断禁止
+            aka: true, //false:赤dora禁止
+            sanma: false,
+            sanmaBisection: false,
+            noYakuFu: false,
+            noYakuDora: false,
+            doubleWindFu: false,
+            rinshanFu: true,
+            kiriageMangan: false,
+            kazoeYakuman: true,
+        };
+        Object.assign(this.settings, settings);
 
         // 初期設定
         if (typeof data !== 'string')
@@ -222,7 +226,7 @@ class Riichi {
             this.tmpResult.han += uradora
             this.tmpResult.yaku['裏ドラ'] = uradora + '飜'
         }
-        if (this.allowAka && this.aka) {
+        if (this.settings.aka && this.aka) {
             this.tmpResult.han += this.aka
             this.tmpResult.yaku['赤ドラ'] = this.aka + '飜'
         }
@@ -280,7 +284,7 @@ class Riichi {
                             fu += 2
                         } else if ([this.bakaze, this.jikaze].includes(n)) {
                             fu += 2
-                            if (this.doubleWindFu && this.bakaze === this.jikaze) {
+                            if (this.settings.doubleWindFu && this.bakaze === this.jikaze) {
                                 fu += 2
                             }
                         }
@@ -311,7 +315,7 @@ class Riichi {
                 fu += 2
             if (this.isTsumo) {
                 if (this.tmpResult.yaku['嶺上開花']) {
-                    if (this.rinshanFu) {
+                    if (this.settings.rinshanFu) {
                         fu += 2
                     }
                 } else {
@@ -341,8 +345,8 @@ class Riichi {
         } else {
             base = this.tmpResult.fu * Math.pow(2, this.tmpResult.han + 2)
             this.tmpResult.text += ' ' + this.tmpResult.fu + '符' + this.tmpResult.han + '飜'
-            if (this.kiriageMangan ? base > 1900 : base > 2000) {
-                if (this.kazoeYakuman && this.tmpResult.han >= 13) {
+            if (this.settings.kiriageMangan ? base > 1900 : base > 2000) {
+                if (this.settings.kazoeYakuman && this.tmpResult.han >= 13) {
                     base = 8000
                     this.tmpResult.name = '数え役満'
                 } else if (this.tmpResult.han >= 11) {
@@ -364,10 +368,10 @@ class Riichi {
         if (this.isTsumo) {
             this.tmpResult.oya = [ceil100(base*2),ceil100(base*2),ceil100(base*2)]
             this.tmpResult.ko = [ceil100(base*2),ceil100(base),ceil100(base)]
-            if (this.sanma) {
+            if (this.settings.sanma) {
                 this.tmpResult.oya.pop()
                 this.tmpResult.ko.pop()
-                if (this.sanmaBisection) {
+                if (this.settings.sanmaBisection) {
                     let halfNorthOya = ceil100(ceil100(base*2) / 2)
                     for (let i = 0; i < this.tmpResult.oya.length; i++) {
                         this.tmpResult.oya[i] += halfNorthOya
@@ -411,9 +415,9 @@ class Riichi {
         }
         for (let k in YAKU) {
             let v = YAKU[k]
-            if (this.disabled.includes(k))
+            if (this.settings.disabledYaku.includes(k))
                 continue
-            if (v.isLocal && !this.allLocalEnabled && !this.localEnabled.includes(k))
+            if (v.isLocal && !this.settings.allLocalYaku && !this.settings.localYaku.includes(k))
                 continue
             if (this.tmpResult.yakuman && !v.yakuman)
                 continue
@@ -421,7 +425,7 @@ class Riichi {
                 continue
             if (v.check(this)) {
                 if (v.yakuman) {
-                    let n = this.allowWyakuman ? v.yakuman : 1
+                    let n = this.settings.wyakuman ? v.yakuman : 1
                     this.tmpResult.yakuman += n
                     this.tmpResult.yaku[k] = n > 1 ? '2倍役満' : '役満'
                 } else {
@@ -475,14 +479,8 @@ class Riichi {
         this.kazoeYakuman = false
     }
 
-
-    // supported local yaku list
-    // 大七星 役満(字一色別)
-    // 人和 役満
-    // 
-
-    disableHairi() {
-        this.hairi = false
+    setHairi(hairi) {
+        this.hairi = hairi
     }
 
     /**
@@ -502,9 +500,7 @@ class Riichi {
         }
 
         this.finalResult.isAgari = true
-        if (this.extra.includes('o'))
-            this.allLocalEnabled = true
-        
+
         this.agariPatterns = agari(this.haiArray)
         if (!this.agariPatterns.length)
             this.agariPatterns.push([])
@@ -521,17 +517,17 @@ class Riichi {
             }
             this.currentPattern = v.concat(this.furo)
             this.calcYaku()
-            if (!this.tmpResult.yakuman && !this.tmpResult.han && !this.noYakuDora && !this.noYakuFu)
+            if (!this.tmpResult.yakuman && !this.tmpResult.han && !this.settings.noYakuDora && !this.settings.noYakuFu)
                 continue
             if (this.tmpResult.han) {
                 this.tmpResult.noYaku = false
                 this.calcDora()
                 this.calcFu()
             } else {
-                if (this.noYakuDora) {
+                if (this.settings.noYakuDora) {
                     this.calcDora()
                 }
-                if (this.noYakuFu) {
+                if (this.settings.noYakuFu) {
                     this.calcFu()
                 }
             }

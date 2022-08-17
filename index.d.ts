@@ -1,29 +1,8 @@
 declare class Riichi {
-    constructor(str: string);
-
-    // disable 二倍役満
-    disableWyakuman(): void;
-
-    // disable 喰断
-    disableKuitan(): void;
-
-    // disable 赤dora
-    disableAka(): void;
+    constructor(str: string, settings?: Partial<Riichi.Settings>);
 
     // disable calculate 牌理 (未和了の場合)
     disableHairi(): void;
-
-    enableLocalYaku(name: "大七星" | "人和"): void;
-    disableYaku(name: string): void;
-
-    enableSanma(bisection?: boolean): void;
-    enableNoYakuFu(): void;
-    enableNoYakuDora(): void;
-
-    enableDoubleWindFu(): void;
-    disableRinshanFu(): void;
-    enableKiriageMangan(): void;
-    disableKazoeYakuman(): void;
 
     calc(): Riichi.Result;
 }
@@ -44,6 +23,22 @@ declare namespace Riichi {
         error: boolean,
         hairi?: any,
         hairi7and13?: any,
+    }
+
+    interface Settings {
+        allLocalYaku: boolean;
+        localYaku: string[];
+        disabledYaku: string[];
+        wyakuman: boolean;
+        kuitan: boolean;
+        sanma: boolean;
+        sanmaBisection: boolean;
+        noYakuFu: boolean;
+        noYakuDora: boolean;
+        doubleWindFu: boolean;
+        rinshanFu: boolean;
+        kiriageMangan: boolean;
+        kazoeYakuman: boolean;
     }
 }
 
