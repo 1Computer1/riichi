@@ -134,6 +134,32 @@ const YAKU =
         }
         return checkAllowed(o, allow)
     }},
+    "紅孔雀":{"yakuman":1, "isLocal": true, "check":(o)=>{
+        let allow = ['1s', '5s', '7s', '9s', '7z']
+        return checkAllowed(o, allow)
+    }},
+    "黒一色":{"yakuman":1, "isLocal": true, "check":(o)=>{
+        let allow = ['2p', '4p', '8p', '1z', '2z', '3z', '4z']
+        return checkAllowed(o, allow)
+    }},
+    "百万石":{"yakuman":1, "isLocal": true, "check":(o)=>{
+        let count = 0
+        for (let v of o.hai) {
+            if (v[1] !== 'm') {
+                return false
+            }
+            count += parseInt(v)
+        }
+        for (let v of o.furo) {
+            for (let vv of v) {
+                if (vv[1] !== 'm') {
+                    return false
+                }
+                count += parseInt(v)
+            }
+        }
+        return count >= 100
+    }},
     "清老頭":{"yakuman":1, "check":(o)=>{
         let allow = ['1m', '9m', '1p', '9p', '1s', '9s']
         return checkAllowed(o, allow)

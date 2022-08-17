@@ -1,4 +1,4 @@
 const R = require(".");
-const r = new R("12m111222333s77z3m");
+const r = new R("44888p111222z+222p", { allLocalYaku: true });
 const res = r.calc();
 console.log(res);
