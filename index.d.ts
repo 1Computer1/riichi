@@ -32,6 +32,7 @@ declare namespace Riichi {
         multiYakuman: boolean;
         wyakuman: boolean;
         kuitan: boolean;
+        aka: boolean;
         sanma: boolean;
         sanmaBisection: boolean;
         noYakuFu: boolean;
