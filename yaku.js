@@ -121,6 +121,17 @@ const YAKU =
     }},
     "緑一色":{"yakuman":1, "check":(o)=>{
         let allow = ['2s', '3s', '4s', '6s', '8s', '6z']
+        if (o.settings.ryuuiisouHatsu) {
+            let need = ['6z']
+            let found = false
+            for (let v of o.currentPattern) {
+                if (typeof v === 'string' && need.includes(v) || typeof v === 'object' && need.includes(v[0])) {
+                    found = true
+                    break
+                }
+            }
+           return checkAllowed(o, allow) && found
+        }
         return checkAllowed(o, allow)
     }},
     "清老頭":{"yakuman":1, "check":(o)=>{

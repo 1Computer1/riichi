@@ -109,12 +109,12 @@ class Riichi {
         this.hairi = true //未和了の場合、牌理を計算
 
         this.settings = {
-            allLocalYaku: false, //全部local役許可
-            localYaku: [], //local役許可list
-            disabledYaku: [], //禁止役 例:['renho', 'wriichi']
-            wyakuman: true, //false:二倍役満禁止
-            kuitan: true, //false:喰断禁止
-            aka: true, //false:赤dora禁止
+            allLocalYaku: false,
+            localYaku: [],
+            disabledYaku: [],
+            wyakuman: true,
+            kuitan: true,
+            aka: true,
             sanma: false,
             sanmaBisection: false,
             noYakuFu: false,
@@ -123,6 +123,7 @@ class Riichi {
             rinshanFu: true,
             kiriageMangan: false,
             kazoeYakuman: true,
+            ryuuiisouHatsu: false,
         };
         Object.assign(this.settings, settings);
 
