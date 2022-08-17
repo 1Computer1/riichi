@@ -158,6 +158,18 @@ const YAKU =
         let allow = ['1z', '2z', '3z', '4z', '5z', '6z', '7z']
         return checkAllowed(o, allow) && YAKU['七対子'].check(o)
     }},
+    "大数隣":{"yakuman":1, "isMenzenOnly":true, "isLocal":true, "check":(o)=>{
+        let allow = ['2m', '3m', '4m', '5m', '6m', '7m', '8m']
+        return checkAllowed(o, allow) && agari.check7(o.haiArray)
+    }},
+    "大車輪":{"yakuman":1, "isMenzenOnly":true, "isLocal":true, "check":(o)=>{
+        let allow = ['2p', '3p', '4p', '5p', '6p', '7p', '8p']
+        return checkAllowed(o, allow) && agari.check7(o.haiArray)
+    }},
+    "大竹林":{"yakuman":1, "isMenzenOnly":true, "isLocal":true, "check":(o)=>{
+        let allow = ['2s', '3s', '4s', '5s', '6s', '7s', '8s']
+        return checkAllowed(o, allow) && agari.check7(o.haiArray)
+    }},
     "清一色":{"han":6, "isFuroMinus":true, "check":(o)=>{
         let must = o.agari[1]
         let allow = []
