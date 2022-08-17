@@ -146,13 +146,13 @@ const YAKU =
         return res === 4
     }},
     "天和":{"yakuman":1, "isMenzenOnly":true, "check":(o)=>{
-        return o.extra.includes('t') && o.isTsumo && o.isOya && !o.furo.length
+        return o.extra.includes('t') && o.isTsumo && o.isOya && !o.furo.length && !o.nukidora
     }},
     "地和":{"yakuman":1, "isMenzenOnly":true, "check":(o)=>{
-        return o.extra.includes('t') && o.isTsumo && !o.isOya && !o.furo.length
+        return o.extra.includes('t') && o.isTsumo && !o.isOya && !o.furo.length && !o.nukidora
     }},
     "人和":{"yakuman":1, "isMenzenOnly":true, "isLocal":true, "check":(o)=>{
-        return o.extra.includes('t') && !o.isTsumo && !o.isOya && !o.furo.length
+        return o.extra.includes('t') && !o.isTsumo && !o.isOya && !o.furo.length && !o.nukidora
     }},
     "大七星":{"yakuman":1, "isMenzenOnly":true, "isLocal":true, "check":(o)=>{
         let allow = ['1z', '2z', '3z', '4z', '5z', '6z', '7z']
