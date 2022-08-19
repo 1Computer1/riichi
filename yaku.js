@@ -428,7 +428,7 @@ const YAKU =
                 break
             }
         }
-        return hasKantsu && o.extra.includes('k') && !o.extra.includes('h') && o.isTsumo && !YAKU['一発'].check(o)
+        return (hasKantsu || o.nukidora) && o.extra.includes('k') && !o.extra.includes('h') && o.isTsumo && !YAKU['一発'].check(o)
     }},
     "十二落抬":{"han": 1, "isLocal":true, check:(o) => {
         let opens = 0
