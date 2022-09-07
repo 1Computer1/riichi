@@ -116,6 +116,8 @@ const YAKU =
         return res === 3
     }},
     "字一色":{"yakuman":1, "check":(o)=>{
+        if ((o.settings.allLocalYaku || o.settings.localYaku.includes('大七星')) && YAKU['大七星'].check(o))
+            return false
         let allow = ['1z', '2z', '3z', '4z', '5z', '6z', '7z']
         return checkAllowed(o, allow)
     }},
@@ -180,7 +182,7 @@ const YAKU =
     "人和":{"yakuman":1, "isMenzenOnly":true, "isLocal":true, "check":(o)=>{
         return o.extra.includes('t') && !o.isTsumo && !o.isOya && !o.furo.length && !o.nukidora
     }},
-    "大七星":{"yakuman":1, "isMenzenOnly":true, "isLocal":true, "check":(o)=>{
+    "大七星":{"yakuman":2, "isMenzenOnly":true, "isLocal":true, "check":(o)=>{
         let allow = ['1z', '2z', '3z', '4z', '5z', '6z', '7z']
         return checkAllowed(o, allow) && YAKU['七対子'].check(o)
     }},
