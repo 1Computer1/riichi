@@ -485,7 +485,7 @@ class Riichi {
                 this.tmpResult.noYaku = false
                 this.calcDora()
                 this.calcFu()
-            } else {
+            } else if (!this.tmpResult.yakuman) {
                 if (this.settings.noYakuDora) {
                     this.calcDora()
                 }
