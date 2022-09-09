@@ -112,7 +112,7 @@ new Riichi('112233456789m1s1s+24') //場風南自風北
 | Name | 飜数 |
 | --- | --- |
 | 人和 | 役満x1 |
-| 大七星 | 役満x1 |
+| 大七星 | 役満x2 |
 | 大数隣 | 役満x1 |
 | 大車輪 | 役満x1 |
 | 大竹林 | 役満x1 |
@@ -131,7 +131,7 @@ const defaultSettings = {
   allLocalYaku    : false,
   localYaku       : [],
   disabledYaku    : [],
-  multiYakuman    : true,  // cap at 1 yakuman total score
+  multiYakuman    : true,  // cap at 1 yakuman total
   wyakuman        : true,  // double yakuman (suuankou tanki etc.)
   kuitan          : true,  // open tanyao
   aka             : true,  // akadora
@@ -139,9 +139,9 @@ const defaultSettings = {
   sanmaBisection  : false, // on tsumo, lose points (false) or bisect North points (true)
   noYakuFu        : false, // calculate fu with no yaku
   noYakuDora      : false, // add dora with no yaku
-  doubleWindFu    : false, // +2 fu if double wind
-  rinshanFu       : true,  // +2 fu on rinshan tsumo
-  kiriageMangan   : false, // round up to mangan
+  doubleWindFu    : false, // +2/+4 fu for double wind
+  rinshanFu       : true,  // +0/+2 fu on rinshan tsumo
+  kiriageMangan   : false, // round 1920 basic points up to mangan
   kazoeYakuman    : true,  // >13 han is yakuman else sanbaiman
   ryuuiisouHatsu  : false, // require hatsu for ryuuiisou
 }
