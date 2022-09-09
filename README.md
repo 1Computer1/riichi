@@ -144,6 +144,7 @@ const defaultSettings = {
   kiriageMangan   : false, // round 1920 basic points up to mangan
   kazoeYakuman    : true,  // >13 han is yakuman else sanbaiman
   ryuuiisouHatsu  : false, // require hatsu for ryuuiisou
+  otakazePei      : false, // north is always yakuhai
 }
 
 const riichi = new Riichi('112233456789m11s', defaultSettings)

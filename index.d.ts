@@ -42,6 +42,7 @@ declare namespace Riichi {
         kiriageMangan: boolean;
         kazoeYakuman: boolean;
         ryuuiisouHatsu: boolean;
+        otakazePei: boolean;
     }
 }
 

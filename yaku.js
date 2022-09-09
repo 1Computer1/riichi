@@ -384,7 +384,7 @@ const YAKU =
         let hasAgariFu = true
         for (let v of o.currentPattern) {
             if (typeof v === 'string')  {
-                if (v.includes('z') && [o.bakaze, o.jikaze, 5, 6, 7].includes(parseInt(v)))
+                if (v.includes('z') && ([o.bakaze, o.jikaze, 5, 6, 7].includes(parseInt(v)) || o.settings.otakazePei && parseInt(v) === 4))
                     return false
             } else if (v.length !== 3 || v[0] === v[1]) {
                 return false
@@ -473,6 +473,9 @@ const YAKU =
     }},
     "自風北":{"han":1, "check":(o)=>{
         return o.jikaze === 4 && checkYakuhai(o, 4)
+    }},
+    "客風北":{"han":1, "check":(o)=>{
+        return o.settings.otakazePei && checkYakuhai(o, 4)
     }},
     "役牌白":{"han":1, "check":(o)=>{
         return checkYakuhai(o, 5)

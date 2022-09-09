@@ -125,6 +125,7 @@ class Riichi {
             kiriageMangan: false,
             kazoeYakuman: true,
             ryuuiisouHatsu: false,
+            otakazePei: false,
         };
         Object.assign(this.settings, settings);
 
@@ -284,9 +285,15 @@ class Riichi {
                         let n = parseInt(v)
                         if ([5, 6, 7].includes(n)) {
                             fu += 2
-                        } else if ([this.bakaze, this.jikaze].includes(n)) {
+                        } else if (this.bakaze === n || this.jikaze === n || (this.settings.otakazePei && n === 4)) {
                             fu += 2
-                            if (this.settings.doubleWindFu && this.bakaze === this.jikaze) {
+                            if (
+                                this.settings.doubleWindFu
+                                && (
+                                    (n === this.bakaze && this.bakaze === this.jikaze)
+                                    || (this.settings.otakazePei && n === 4 && this.jikaze === 4) // Edge case that never happens IRL
+                                )
+                            ) {
                                 fu += 2
                             }
                         }
