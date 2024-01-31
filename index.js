@@ -312,9 +312,9 @@ class Riichi {
                     else if (!hasAgariFu) {
                         if (v[1] === this.agari)
                             hasAgariFu = true
-                        else if (v[0] === hasAgariFu && parseInt(v[2]) === 9)
+                        else if (v[0] === this.agari && parseInt(v[2]) === 9)
                             hasAgariFu = true
-                        else if (v[2] === hasAgariFu && parseInt(v[0]) === 1)
+                        else if (v[2] === this.agari && parseInt(v[0]) === 1)
                             hasAgariFu = true
                     }
                 }
