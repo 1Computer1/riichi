@@ -1,4 +1,4 @@
 const R = require(".");
-const r = new R("12345678m123s44z9m", {otakazePei: true});
+const r = new R("44m12345p111678s3p+d4z4z+n3", {});
 const res = r.calc();
 console.log(res);

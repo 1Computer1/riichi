@@ -262,13 +262,18 @@ class Riichi {
                 }
             }
         }
+        for (let vv of set) {
+            if (vv == '4z') {
+                dora += this.nukidora
+            }
+        }
         return dora
     }
 
     /**
      * 符計算
      */
-    calcFu() { 
+    calcFu() {
         let fu = 0
         if (this.tmpResult.yaku['七対子']) {
             fu = 25
