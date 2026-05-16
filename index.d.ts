@@ -15,6 +15,7 @@ declare namespace Riichi {
         noYaku: boolean,
         han: number,
         fu: number,
+        pattern: Pattern[],
         ten: number,
         name: string,
         text: string,
@@ -24,6 +25,12 @@ declare namespace Riichi {
         hairi?: any,
         hairi7and13?: any,
     }
+
+    type Pattern
+        = { t: 'base' | 'chiitoi' | 'pinfuTsumo' | 'closedRon' | 'rinshanTsumo' | 'tsumo' | 'openPinfu', fu: number }
+        | { t: 'yakuhaiPair', double: boolean, fu: number, v: string | string[] }
+        | { t: 'quad' | 'triplet', yaochuu: boolean, open: boolean, fu: number, v: string | string[] }
+        | { t: 'wait', w: 'ryanmen' | 'shanpon' | 'kanchan' | 'penchan' | 'tanki', fu: number, v: string | string[] };
 
     interface Settings {
         allLocalYaku: boolean;

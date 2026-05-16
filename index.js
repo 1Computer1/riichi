@@ -97,6 +97,7 @@ class Riichi {
             'noYaku': true,
             'han': 0, //飜数
             'fu': 0, //符数
+            'pattern': [],
             'ten': 0, //点数(this.isOya=undefined場合，計算不能)
             'name': '', //例:'満貫'、'跳満'、'倍満'、'三倍満'、'数え役満'
             'text': '', //結果text 例:'30符4飜'、'40符4飜 満貫'、'6倍役満'
@@ -170,6 +171,7 @@ class Riichi {
                 }
             }
         }
+        for (let v of this.furo) v.furo = true
 
         let tmp = parse(hai)
         this.hai = tmp.res
@@ -275,21 +277,36 @@ class Riichi {
      */
     calcFu() {
         let fu = 0
+        let pattern = []
         if (this.tmpResult.yaku['七対子']) {
             fu = 25
+            pattern.push({ t: 'chiitoi', fu: 25 })
         } else if (this.tmpResult.yaku['平和']) {
             fu = this.isTsumo ? 20 : 30
+            pattern.push({ t: 'base', fu: 20 })
+            if (this.isTsumo) {
+                pattern.push({ t: 'pinfuTsumo', fu: 0 })
+            } else {
+                pattern.push({ t: 'closedRon', fu: 10 })
+            }
         } else {
             fu = 20
-            let hasAgariFu = false
+            pattern.push({ t: 'base', fu: 20 })
+            let agariWait = null
+            let agariPattern = null
             if (!this.isTsumo && this.isMenzen())
+            {
                 fu += 10
+                pattern.push({ t: 'closedRon', fu: 10 })
+            }
+            console.log(this.agari, this.currentPattern);
             for (let v of this.currentPattern) {
                 if (typeof v === 'string') {
                     if (v.includes('z')) {
                         let n = parseInt(v)
                         if ([5, 6, 7].includes(n)) {
                             fu += 2
+                            pattern.push({ t: 'yakuhaiPair', double: false, fu: 2, v })
                         } else if (this.bakaze === n || this.jikaze === n || (this.settings.otakazePei && n === 4)) {
                             fu += 2
                             if (
@@ -300,48 +317,88 @@ class Riichi {
                                 )
                             ) {
                                 fu += 2
+                                pattern.push({ t: 'yakuhaiPair', double: true, fu: 4, v })
+                            } else {
+                                pattern.push({ t: 'yakuhaiPair', double: false, fu: 2, v })
                             }
                         }
                     }
-                    if (this.agari === v)
-                        hasAgariFu = true
+                    if (this.agari === v) {
+                        agariWait = 'tanki'
+                        agariPattern = v
+                    }
                 } else {
-                    if (v.length === 4)
+                    if (v.length === 4) {
                         fu += is19(v[0]) ? 16 : 8
-                    else if (v.length === 2)
+                        pattern.push({ t: 'quad', yaochuu: is19(v[0]), open: true, fu: is19(v[0]) ? 16 : 8, v })
+                    }
+                    else if (v.length === 2) {
                         fu += is19(v[0]) ? 32 : 16
-                    else if (v.length === 1)
+                        pattern.push({ t: 'quad', yaochuu: is19(v[0]), open: false, fu: is19(v[0]) ? 32 : 16, v })
+                    }
+                    else if (v.length === 1) {
                         fu += is19(v[0]) ? 8 : 4
-                    else if (v.length === 3 && v[0] === v[1])
+                        pattern.push({ t: 'triplet', yaochuu: is19(v[0]), open: false, fu: is19(v[0]) ? 8 : 4, v })
+                        if (!agariWait && v[0] === this.agari) {
+                            agariWait = 'shanpon'
+                            agariPattern = v
+                        }
+                    }
+                    else if (v.length === 3 && v[0] === v[1]) {
                         fu += is19(v[0]) ? 4 : 2
-                    else if (!hasAgariFu) {
-                        if (v[1] === this.agari)
-                            hasAgariFu = true
-                        else if (v[0] === this.agari && parseInt(v[2]) === 9)
-                            hasAgariFu = true
-                        else if (v[2] === this.agari && parseInt(v[0]) === 1)
-                            hasAgariFu = true
+                        pattern.push({ t: 'triplet', yaochuu: is19(v[0]), open: true, fu: is19(v[0]) ? 4 : 2, v })
+                        if (!agariWait && v[0] === this.agari) {
+                            agariWait = 'shanpon'
+                            agariPattern = v
+                        }
+                    }
+                    else if (!agariWait && !v.furo) {
+                        if (v[1] === this.agari) {
+                            agariWait = 'kanchan'
+                            agariPattern = v
+                        }
+                        else if (v[0] === this.agari && parseInt(v[2]) === 9) {
+                            agariWait = 'penchan'
+                            agariPattern = v
+                        }
+                        else if (v[2] === this.agari && parseInt(v[0]) === 1) {
+                            agariWait = 'penchan'
+                            agariPattern = v
+                        }
+                        else if (v[0] === this.agari || v[2] === this.agari) {
+                            agariWait = 'ryanmen'
+                            agariPattern = v
+                        }
                     }
                 }
             }
 
-            if (hasAgariFu)
+            if (agariWait === 'kanchan' || agariWait === 'penchan' || agariWait === 'tanki') {
                 fu += 2
+                pattern.push({ t: 'wait', w: agariWait, fu: 2, v: agariPattern })
+            } else {
+                pattern.push({ t: 'wait', w: agariWait, fu: 0, v: agariPattern })
+            }
             if (this.isTsumo) {
                 if (this.tmpResult.yaku['嶺上開花']) {
                     if (this.settings.rinshanFu) {
                         fu += 2
+                        pattern.push({ t: 'rinshanTsumo', fu: 2 })
                     }
                 } else {
                     fu += 2
+                    pattern.push({ t: 'tsumo', fu: 2 })
                 }
             }
 
             fu = ceil10(fu)
-            if (fu < 30)
+            if (fu < 30) {
                 fu = 30
+                pattern.push({ t: 'openPinfu', fu: 2 })
+            }
         }
         this.tmpResult.fu = fu
+        this.tmpResult.pattern = pattern
     }
 
     /**
