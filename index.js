@@ -299,7 +299,6 @@ class Riichi {
                 fu += 10
                 pattern.push({ t: 'closedRon', fu: 10 })
             }
-            console.log(this.agari, this.currentPattern);
             for (let v of this.currentPattern) {
                 if (typeof v === 'string') {
                     if (v.includes('z')) {
