@@ -382,7 +382,9 @@ class Riichi {
                 if (this.tmpResult.yaku['嶺上開花']) {
                     if (this.settings.rinshanFu) {
                         fu += 2
-                        pattern.push({ t: 'rinshanTsumo', fu: 2 })
+                        pattern.push({ t: 'tsumo', fu: 2 })
+                    } else {
+                        pattern.push({ t: 'rinshanTsumo', fu: 0 })
                     }
                 } else {
                     fu += 2
